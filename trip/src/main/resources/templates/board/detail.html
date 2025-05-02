@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="center-box">
+            <h2>상세보기</h2>
+            <form method="post" th:action="@{/board/write}">
+                <table class="table">
+                    <tr>
+                        <td>번호 : </td>
+                        <td><p th:text="${board.id}"></p></td>
+                    </tr>
+                    <tr>
+                        <td>제목 : </td>
+                        <td><p th:text="${board.title}"></p></td>
+                    </tr>
+                    <tr>
+                        <td>내용 : </td>
+                        <td>
+                            <p th:text="${board.content}"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>등록 날짜 : </td>
+                        <td><p th:text="${board.createdAt}"></p></td>
+                    </tr>
+                    <tr>
+                        <td>수정 날짜 : </td>
+                        <td><p th:text="${board.modifyAt}"></p></td>
+                    </tr>
+                    <tr>
+                        <td>조회수 : </td>
+                        <td><p th:text="${board.count}"></p></td>
+                    </tr>
+                    <tr>
+                        <td>작성자 : </td>
+                        <td><p th:text="${board.username}"></p></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a th:href="@{|/board/modify/${board.id}|}" class="btn btn-outline-secondary">수정</a>
+                            <a href="javascript:void(0)" class="delete btn btn-outline-secondary" th:data-uri="@{|/board/delete/${board.id}|}">삭제</a>
+                            <a th:href="@{/board/list}" class="btn btn-outline-secondary">목록</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <script layout:fragment="script" type="text/javascript">
+        const delete_elements = document.getElementsByClassName("delete");
+        Array.form(delete_elements).forEach(function(element) {
+            element.addEventListener("click", function() {
+                if(confirm("정말 삭제하시겠습니까?")) {
+                    location.href = this.dataset.uri;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

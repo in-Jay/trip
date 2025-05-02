@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>여행용 굿즈 추가</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="center-box">
+      <h2>여행용 굿즈 추가</h2>
+      <form method="post" enctype="multipart/form-data" th:object="${goodsForm}">
+        <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}">
+        <table class="table">
+          <tr>
+            <td>상품코드 : </td>
+            <td>
+              <input type="text" th:field="*{goodsCode}" name="goodsCode">
+              <span th:if="${#fields.hasErrors('goodsCode')}" th:errors="*{goodsCode}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>상품명 : </td>
+            <td>
+              <input type="text" th:field="*{goodsName}" name="goodsName">
+              <span th:if="${#fields.hasErrors('goodsName')}" th:errors="*{goodsName}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>기본 수량 : </td>
+            <td>
+              <input type="text" th:field="*{baseQuantity}" name="baseQuantity">
+              <span th:if="${#fields.hasErrors('baseQuantity')}" th:errors="*{baseQuantity}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>최소 수량 : </td>
+            <td>
+              <input type="text" th:field="*{minQuantity}" name="minQuantity">
+              <span th:if="${#fields.hasErrors('minQuantity')}" th:errors="*{minQuantity}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>가격 : </td>
+            <td>
+              <input type="text" th:field="*{goodsPrice}" name="goodsPrice">
+              <span th:if="${#fields.hasErrors('goodsPrice')}" th:errors="*{goodsPrice}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>규격 : </td>
+            <td>
+              <input type="text" th:field="*{goodsSize}" name="goodsSize">
+              <span th:if="${#fields.hasErrors('goodsSize')}" th:errors="*{goodsSize}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>재질 : </td>
+            <td>
+              <input type="text" th:field="*{material}" name="material">
+              <span th:if="${#fields.hasErrors('material')}" th:errors="*{material}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>제작기간 : </td>
+            <td>
+              <input type="text" th:field="*{productionTime}" name="productionTime">
+              <span th:if="${#fields.hasErrors('productionTime')}" th:errors="*{productionTime}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>원산지 : </td>
+            <td>
+              <input type="text" th:field="*{goodsOrigin}" name="goodsOrigin">
+              <span th:if="${#fields.hasErrors('goodsOrigin')}" th:errors="*{goodsOrigin}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>상품 이미지 : </td>
+            <td>
+              <input type="file" name="image">
+              <div th:if="${goodsImageUrl}">
+                <img th:src="${goodsImageUrl}" th:alt="${goodsName}">
+              </div>
+            </td>
+          </tr>
+          <tr colspan="2">
+            <td>
+              <button type="submit">저장</button>
+              <button type="reset">지우기</button>
+              <button type="button" onclick="location.href='/goods/list'">목록</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+  <script layout:fragment="script" type="text/javascript">
+
+  </script>
+</body>
+</html>

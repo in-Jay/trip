@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>여행지기</title>
+</head>
+<body>
+  <div layout:fragment="content">
+   <div class="center-box">
+       <h2>로그인</h2>
+       <form th:action="@{/member/login}"  method="post" id="loginForm">
+           <table class="table">
+               <tr>
+                   <td>사용자 아이디 : </td>
+                   <td>
+                       <input type="text" name="username" id="username">
+                       <div class="text-danger h6" id="usernameError"></div>
+                       <a th:href="@{/member/find_id}">아이디를 잊으셨나요?</a>
+                   </td>
+               </tr>
+               <tr>
+                   <td>비밀번호 : </td>
+                   <td>
+                       <input type="password" name="password" id="password">
+                       <div class="text-danger h6" id="passwordError"></div>
+                       <a th:href="@{/member/reset_pass}">비밀번호를 잊으셨나요?</a>
+                   </td>
+               </tr>
+               <tr>
+                   <td colspan="2" class="text-center">
+                       <button type="button" onclick="valfn()">로그인</button>
+                       <button type="button" onclick="location.href='/member/register'">회원가입</button>
+                   </td>
+               </tr>
+           </table>
+       </form>
+   </div>
+  </div>
+  <script layout:fragment="script" type="text/javascript">
+      function valfn(){
+        let form = $("#loginForm");
+        let username = $("#username").val();
+        let password = $("#password").val();
+        //오류 메시지 표시하는 영역 초기화
+        $("#usernameError").text("");
+        $("#passwordError").text("");
+        //만약 username이 true가 아니면 에러 메시지 표시
+        if(!username){
+          $("#usernameError").text("사용자 아이디를 입력해 주세요.");
+          return false;
+        }
+        //만약 password가 true가 아니면 에러 메시지 표시
+        if(!password){
+          $("#passwordError").text("비밀번호를 입력해 주세요.");
+          return false;
+        }
+
+    //AJAX로 서버에 아이디 존재 여부 확인 요청
+        $.ajax({
+          url:'/member/username_exists',
+          type:'get',
+          data: { username:username },
+          success:function(response){
+            if(!response){
+              alert("일치하는 사용자 정보가 없습니다.");
+            }else{
+              form.submit();
+            }
+          },
+          error:function(){
+            alert("서버 오류가 발생했습니다. 다시 시도해 주세요.");
+          }
+        });
+
+
+      }
+  </script>
+
+</body>
+</html>

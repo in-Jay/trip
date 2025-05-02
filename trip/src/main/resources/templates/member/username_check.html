@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 중복 검사</title>
+    <style>
+        div {text-align : center;}
+        button { border:1px solid #999, font-size: 14px; padding : 7px; }
+    </style>
+</head>
+<body>
+  <h3 th:text="${message}"></h3>
+  <button type="button" onclick="closeWindow()">닫기</button>
+
+  <script type="text/javascript">
+    function closeWindow() {
+      window.close();
+    }
+  </script>
+</body>
+</html>

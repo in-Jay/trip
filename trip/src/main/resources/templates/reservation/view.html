@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>여행 예약하기</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="center-box">
+            <h2>예약 내역</h2>
+            <div class="card" th:each="reservation : ${reservationList}" th:attr="data-id=${reservation.id}">
+                <img th:src="${reservation.imageUrl}" th:alt="${reservation.title}">
+                <div class="card-body">
+                    <h5 th:text="${reservation.title}"></h5>
+                    <p th:text="${'출발일 : ' + reservation.startDate}"></p>
+                    <p th:text="${'참여인원 : ' + reservation.numPeople + '명'}"></p>
+                    <p th:text="${'총 금액 : ' + #numbers.formatInteger(reservation.totalPrice, 3, 'COMMA') + '원'}"></p>
+                    <p th:text="${'예약일 : ' + reservation.createDate + '일'}"></p>
+                    <button class="cancel-btn" th:data-id="${reservation.id}">예약취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script layout:fragment="script" type="text/javascript">
+    $(document).ready(function () {
+        $(".cancel-btn").on("click", function () {
+          // 예약 ID 가져오기
+          const reservationId = $(this).data("id");
+          // 클릭된 버튼의 행 찾기
+          const row = $(this).closest(".card");
+
+          if (confirm("정말로 이 예약을 취소하시겠습니까?")) {
+            // Ajax 요청 보내기
+            $.ajax({
+              url: "/reservation/cancel/" + reservationId,
+              type: "POST",
+              success: function (message) {
+                alert(message); // 성공 메시지 표시
+                row.remove(); // 해당 행 삭제
+              },
+              error: function () {
+                alert("취소 중 오류가 발생했습니다. 다시 시도해주세요.");
+              },
+            });
+          }
+        });
+      });
+</script>
+</body>
+</html>

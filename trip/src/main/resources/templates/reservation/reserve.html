@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>여행 예약하기</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="center-box">
+            <h2 th:text="${trip.title}"></h2>
+            <img th:src="${trip.imageUrl}" alt="${trip.title}">
+            <p th:text="${trip.tag}"></p>
+            <p th:text="${trip.air}"></p>
+            <p th:text="${trip.plan}"></p>
+            <p th:text="${trip.startDate}"></p>
+            <p th:text="${trip.Personnel}"></p>
+            <p th:text="${trip.price+'원'}" id="price"></p>
+
+            <form th:action="@{|/reservation/reserve/${trip.id}|}" method="post">
+                <input type="hidden" name="startDate" th:value="${trip.startDate}">
+                <input type="hidden" name="totalPrice" id="totalPriceInput">
+
+                <label for="numPeople">인원 수 :</label>
+                <input type="number" id="numPeople" name="numPeople" min="1" value="1" required>
+                <p>총 금액: <span id="totalPrice" name="totalPrice" th:text="${trip.price}"></span>원</p>
+
+                <button type="submit">예약하기</button>
+            </form>
+        </div>
+    </div>
+<script layout:fragment="script" type="text/javascript">
+    //문서에서 아이디가 price인 요소를 가져와서 "원" 글자를 없애고, 계산가능한 형식으로 변환하여 price 변수에 저장
+    const price = parseFloat(document.getElementById("price").textContent.replace("원", ""));
+
+    //문서에서 아이디가 numPeople인 요소를 가져와서 numPeopleInput변수에 저장
+     const numPeopleInput = document.getElementById("numPeople");
+
+     //문서에서 아이디가 totalPrice인 요소를 가져와서 totalPriceElement 변수에 저장
+     const totalPriceElement = document.getElementById("totalPrice");
+
+     //문서에서 아이디가 totalPriceInput인 요소를 가져와서 totalPriceInput 변수에 저장
+     const totalPriceInput = document.getElementById("totalPriceInput");
+
+     //여행에 참여하는 인원수가 입력되면 인원수 * 가격 => 총금액 계산
+     numPeopleInput.addEventListener("input", () => {
+         //인원수는 정수형으로 변환하거나 0으로 초기화
+         const numPeople = parseInt(numPeopleInput.value) || 0;
+         //가격 * 인원수 => 총금액 게산
+         const totalPrice = price * numPeople;
+         //계산된 총금액을 문자열로 변환하여 totalPriceElement 영역에 글자로 입력
+         totalPriceElement.textContent = totalPrice.toLocaleString();
+         //총금액을 totalPriceInput 영역에 글자로 표시
+         totalPriceInput.value = totalPrice;
+     });
+</script>
+</body>
+</html>

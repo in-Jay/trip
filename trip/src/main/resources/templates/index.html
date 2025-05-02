@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>여행지기</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <!-- swiper slide -->
+    <section class="s1">
+      <div class="main-slide">
+        <div class="swiper swiper1">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide flex">
+              <div class="slide-bg slide-bg1"></div>
+              <div class="slide-img slide-img1"></div>
+            </div>
+            <div class="swiper-slide flex">
+              <div class="slide-bg slide-bg2"></div>
+              <div class="slide-img slide-img2"></div>
+            </div>
+            <div class="swiper-slide flex">
+              <div class="slide-bg  slide-bg3"></div>
+              <div class="slide-img slide-img3"></div>
+            </div>
+          </div><!-- swiper-wrapper END -->
+        </div><!-- swiper END -->
+      </div><!-- main-slide END -->
+      <div class="main-slide-txt">
+        <div class="swiper swiper2">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide flex2">
+              <h2>출발확정 상품으로<br>걱정없이 떠나세요.</h2>
+              <p>#장거리 여행 시즌 ON</p>
+            </div>
+            <div class="swiper-slide flex2">
+              <h2>아바타가<br>먼저 다녀와서 추천하는</h2>
+              <p>투어 아바타 IN 월드리조트</p>
+            </div>
+            <div class="swiper-slide flex2">
+              <h2>고객 리뷰 만족도 평점: 4.8점<br>일생에, 한번은 꼭 가봐야할 곳</h2>
+              <p>고객 실제 리뷰와 함께 보는 여행 포인트!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </section>
+
+    <section class="s2">
+      <div class="center-box">
+        <h2>MD 추천</h2>
+        <p>이번주 주목해야 하는 상품</p>
+        <div class="swiper swiper3">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" th:each="item : ${tripItem1}">
+              <div class="swiper-slide-img">
+                <img th:src="${item.image}" th:alt="${item.title}">
+              </div>
+              <div class="swiper-slide-txtbox">
+                <p th:text="${item.category2}" class="cate"></p>
+                <h3 th:text="${item.title}"></h3>
+                <p class="price" th:text="${#numbers.formatInteger(item.lprice, 3, 'COMMA') + '원 ~'}"></p>
+                <a th:href="@{|/reservation/booking/${item.id}|}">예약하기</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </section>
+
+    <section class="s3">
+      <div class="s3-bg"></div>
+      <div class="center-box">
+        <h2>여행지기에서 만나보는 최신정보</h2>
+        <div class="flex">
+          <div class="mega-sale">
+            <div class="swiper swiper4">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide" th:each="item : ${tripItem2}">
+                  <div class="swiper-slide-img">
+                    <img th:src="${item.image}" th:alt="${item.title}">
+                  </div>
+                  <h3 th:text="${item.title}"></h3>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+
+          <div class="notice">
+            <h3>공지사항</h3>
+            <div class="notice-box">
+              <table class="table">
+                <tr th:each="board : ${recentBoard}">
+                  <td>
+                    <b><a th:href="@{|/board/detail/${board.id}}" th:text="${board.title}"></a></b>
+                  </td>
+                  <td>
+                    <span th:text="${#temporals.format(board.createdAt, 'yyyy.MM.dd')}"></span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="s4">
+      <div class="center-box">
+        <h2>M타임딜</h2>
+        <div class="time-deal flex">
+          <a href="#" class="flex">
+            <div class="time-deal-photo">
+              <img th:src="@{/img/time-deal.jpg}" alt="타임딜">
+            </div>
+            <div class="time-deal-txt">
+              <div class="d-day" id="d-day">
+
+              </div>
+              <div class="d-day-txt">
+                <h3>타이베이 완전정복 with 최우수가이드</h3>
+                <span>#타이베이 #중정기념관 #타이중 #대만 #타이베이핵심일주 #101타워</span>
+                <p>메가세일 즉시할인 3만원+쿠폰할인 3만원+카드할인까지</p>
+                <h3>특가 469,900원 ~</h3>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="time-deal-swiper">
+          <div class="swiper swiper5">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide flex" th:each="item,iterStat : ${tripItem3}" th:if="${iterStat.index < 6}">
+                <a th:href="@{|/reservation/booking/${item.id}|}">
+                  <div class="swiper-slide-img">
+                    <img th:src="${item.image}" th:alt="${item.title}">
+                  </div>
+                  <div class="swiper-slide-txt">
+                    <span>D-3</span>
+                    <h3 th:text="${item.title}"></h3>
+                    <p th:text="${'특가 ' + #numbers.formatInteger(item.lprice, 3, 'COMMA') + '원 ~'}" class="price"></p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="s5">
+      <div class="center-box">
+        <h2>지금 여행지기에서는</h2>
+        <div class="swiper swiper6">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <a href="#">
+                <img th:src="@{/img/ban1.png}" alt="반값 할인 이벤트">
+                <br>
+                <p>[수험생 단독 혜택]반값 할인 이벤트</p>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#">
+                <img th:src="@{/img/ban2.png}" alt="반값 할인 이벤트">
+                <br>
+                <p>[전세계호텔]5% 할인쿠폰</p>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#">
+                <img th:src="@{/img/ban3.png}" alt="반값 할인 이벤트">
+                <br>
+                <p>[이벤트]무료숙박권 응모</p>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#">
+                <img th:src="@{/img/ban4.png}" alt="반값 할인 이벤트">
+                <br>
+                <p>영화 기대평 이벤트</p>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#">
+                <img th:src="@{/img/ban5.png}" alt="월드리조트 특별혜택">
+                <br>
+                <p>[사이판]월드리조트 특별혜택</p>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#">
+                <img th:src="@{/img/ban5.png}" alt="]월드리조트 특별혜택">
+                <br>
+                <p>아쿠아리움 리뷰 이벤트</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="s6">
+      <div class="center-box">
+        <h2>홈쇼핑 HIT 상품</h2>
+        <div class="home-shopping">
+          <div th:each="item : ${tripItem4}" class="shop">
+            <div class="shop-img">
+              <img th:src="${item.image}" th:alt="${item.title}">
+            </div>
+            <div class="hover">
+              <a th:href="@{|/reservation/booking/${item.id}|}">
+                <h3 th:text="${item.mallName}"></h3>
+                <div class="flex">
+                  <span th:text="${item.category1}"></span>
+                  <span th:text="${item.category2}"></span>
+                  <span th:text="${item.category3}"></span>
+                </div>
+                <p th:text="${#numbers.formatInteger(item.lprice, 3, 'COMMA') + '원 ~'}"></p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  </div>
+<script layout:fragment="script" type="text/javascript">
+  let targetDate = new Date("12 25, 2025 24:00:00").getTime();
+  //1초마다 함수 생성, 실행
+  let x = setInterval(function(){
+    //현재 날짜 구하기
+    let now = new Date().getTime();
+    //타켓 날짜에서 현재 날짜를 뺀 숫자
+    let distance = targetDate - now;
+    //각 변수에 일, 시, 분, 초를 등록
+    let day = Math.floor(distance / (1000* 60 * 60 * 24));
+    let hour = Math.floor(distance % (1000* 60 * 60 * 24) / (1000 * 60 * 60));
+    let minute = Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
+    let second = Math.floor(distance % (1000 * 60) / 1000);
+
+  //만약 day가 0이면 "당일"임
+  day = day === 0 ? "당일" : day.toString().padStart(2, "0");
+  hour = hour.toString().padStart(2, "0");
+  minute = minute.toString().padStart(2, "0");
+  second = second.toString().padStart(2, "0");
+
+  //화면에 표시
+  document.getElementById("d-day").innerHTML = "<b>" + day + "</b>일 <b>"+ hour + " : " + minute + " : " + second + "</b> 남았습니다.";
+  });
+
+</script>
+</body>
+</html>

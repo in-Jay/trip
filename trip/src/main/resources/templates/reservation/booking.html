@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>예약날짜와 상품 보기</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="center-box">
+            <h2 th:text="${item.title}"></h2>
+           <table class="table">
+               <tr>
+                   <td>
+                       <img th:src="${item.image}" th:alt="${item.title}">
+                   </td>
+                   <td>
+                       <p th:text = "${item.category1}"></p>
+                       <p th:text = "${item.category2}"></p>
+                       <p th:text = "${item.category3}"></p>
+                       <p th:text = "${#numbers.formatInteger(item.lprice, 3, 'COMMA')  + '원'}"></p>
+                   </td>
+               </tr>
+           </table>
+
+            <!-- 달력 -->
+            <div id = "calendar">
+                <div class="dateTimeWrapper">
+                    <table class="table">
+                        <tr>
+                            <td class="flex">
+                                <button id="prevMonth">이전</button>
+                                <div class="currentYear"></div>
+                                <div class="currentMonth"></div>
+                                <button id="nextMonth">다음</button>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div class="datesWrapper">
+                                    <ul class="dateHolder">
+
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div><!--달력-->
+            <!--날짜에 맞는 여행상품 목록-->
+            <div th:if="${trips != null}">
+                <h3 th:text="${selectedDate} + '에 해당하는 여행 상품'"></h3>
+                <ul>
+                    <li th:each="trip : ${trips}">
+                        <h4 th:text="${trip.title}"></h4>
+                        <p>
+                            <img th:src="${trip.imageUrl}" style="width: 700px;">
+                        </p>
+                        <p th:text="${trip.plan}"></p>
+                        <p th:text="${#numbers.formatInteger(trip.price, 3, 'COMMA') + '원'}"></p>
+
+                        <a th:href="@{|/reservation/reserve/${trip.id}|}">예약하기</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<script layout:fragment="script" type="text/javascript">
+    var days = ['일', '월', '화', '수', '목', '금', '토'];
+      var daysFull = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+      var months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+
+      //현재 시스템의 날짜와 시간을 구해서 currentDate변수에 저장
+      var currentDate = new Date();
+      //여행상품 정보 중 아이디값을 가져와서 itemId변수에 저장
+      var itemId = [[${item.id}]];
+      //pad함수 선언, input은 매개변수
+      function pad(input) {
+      //문자열 변수 선언 및 초기화
+          var BASE = "00";
+          //조건 ? true : false => 삼항연산자(조건연산자)
+          //input변수가 true이면 input값을 9로 나눈 정수값을 2(숫자2가 아님, 두자리임)에서 뺀 숫자만큼 base변수의 문자열을 나눔 -> input변수에 저장
+          //input변수가 false면 base값을 input변수에 저장
+          //substr (숫자 2개만 쪼개주세요)
+          //Math.ceil : 올려서 정수로 만들어주세요
+          return input ? BASE.substr(0, 2 - Math.ceil(input / 9)) + input : BASE;
+      }
+
+      function renderCalendar(date) {
+      //현재 날짜에서 월, 년, 일 정보 가져와서 넣기 -  getMonth 월을 받아서 현재 월에 넣어주세요
+          $(".currentMonth").text(months[date.getMonth()] + "월");
+          $(".currentYear").text(date.getFullYear() + "년");
+          //daysFull은 요일이랑, 일 받아와서 넣음
+          $(".currentDay").text(daysFull[date.getDay()]);
+          //주어진 날짜(date)의 해당 월의 첫번쨰 날을 구하여 변수에 저장
+          var firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+          //주어진 날짜(date)의 해당 월의 마지막날을 구하여 변수에 저장
+          var lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+        //dateHolder영역 비우기(dateHolder 스스로를 없애는게 아니라 안에 자식요소를 지우는것)
+          $(".dateHolder").empty();
+
+          //주어진 날짜(date)의 첫째날부터 마지막날까지 반복
+          for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
+          //현재 날짜를 구해서 thisDate변수에 저장
+              let thisDate = new Date(date.getFullYear(), date.getMonth(), day);
+              //현재 날짜를 문자열로 변환한 값이 시스템의 날짜를 문자열로 변환한 값과 같으면 dayClass변수에 dateCurrent문자열을 저장
+              let dayClass = thisDate.toDateString() === new Date().toDateString() ? "dateCurrent" : "";
+
+              //현재 날짜가 0과 같으면 dayClass변수에 sunday문자열을 저장
+              //현자 날짜가 6이면 dayClass변수에 saturday문자열을 저장
+              if (thisDate.getDay() === 0) {
+                  dayClass += " sunday";
+              } else if (thisDate.getDay() === 6) {
+                  dayClass += " saturday";
+              }
+
+              //dateHolder영역에 li로 날짜를 추가
+              $(".dateHolder").append(`
+                  <li>
+                      <div class="day ${dayClass}">${days[thisDate.getDay()]}</div>
+                      <div class="date ${dayClass}" onclick="loadTrips('${thisDate.toISOString().split('T')[0]}', ${itemId}, event)">${pad(thisDate.getDate())}</div>
+                  </li>
+              `);
+          }
+      }
+  //다음버튼 클릭하면 다음달 정보 표시
+      $("#prevMonth").on("click", function () {
+          currentDate.setMonth(currentDate.getMonth() - 1);
+          renderCalendar(currentDate);
+      });
+//이전 버튼 클릭하면 이전달 정보 표시
+      $("#nextMonth").on("click", function () {
+          currentDate.setMonth(currentDate.getMonth() + 1);
+          renderCalendar(currentDate);
+      });
+      //문서가 준비되면 renderCalendar 함수 호출
+      $(document).ready(function () {
+          renderCalendar(currentDate);
+      });
+
+    // 날짜 클릭 시 여행 상품 목록을 서버에서 가져오기
+    function loadTrips(date, itemId, event) {
+        event.preventDefault();  // 페이지 리로드나 맨 위로 스크롤되는 동작을 막습니다.
+
+        // 클릭한 날짜를 로컬 타임존을 기준으로 처리 (1일을 더함)
+        var clickedDate = new Date(date);
+        clickedDate.setDate(clickedDate.getDate() + 1);
+
+        // 날짜를 다시 YYYY-MM-DD 형식으로 변환
+        var newDate = clickedDate.toISOString().split('T')[0];
+
+        // 페이지 URL을 업데이트하여 서버로 요청을 보냄
+        window.location.replace("/trip/tripsByDate?date=" + newDate + "&itemId=" + itemId);
+    }
+</script>
+</body>
+</html>

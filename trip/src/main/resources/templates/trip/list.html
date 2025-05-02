@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>예약날짜와 상품 보기</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="center-box trip-product">
+      <h2>여행상품 목록</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>출발일</th>
+            <th>예약인원</th>
+            <th>가격</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="trip : ${trips}">
+            <td th:text="${trip.id}"></td>
+            <td>
+              <a th:href="@{|/trip/detail/${trip.id}|}" th:text="${trip.title}"></a>
+            </td>
+            <td th:text="${trip.startDate}"></td>
+            <td th:text="${trip.personnel}"></td>
+            <td th:text="${trip.price}"></td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <tr>
+          <td>
+            <button type="button" onclick="location.href='/trip/add'">상품 등록</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script layout:fragment="script" type="text/javascript">
+  </script>
+</body>
+</html>

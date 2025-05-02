@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>여행상품 상세보기</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="center-box">
+      <h2>여행상품 상세보기</h2>
+        <table class="table">
+          <tr>
+            <td>상품번호 : </td>
+            <td>
+              <p th:text="${trip.id}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>여행상품 : </td>
+            <td>
+              <p th:text="${trip.title}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>여행태그 : </td>
+            <td>
+              <p th:text="${trip.tag}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>항공 : </td>
+            <td>
+              <p th:text="${trip.air}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>여행일정 : </td>
+            <td>
+              <p th:text="${trip.plan}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>출발일 : </td>
+            <td>
+              <p th:text="${trip.startDate}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>예약인원 : </td>
+            <td>
+              <p th:text="${trip.personnel}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>가격 : </td>
+            <td>
+              <p th:text="${trip.price}"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>여행사진 : </td>
+            <td>
+              <img th:src="${trip.imageUrl}" alt="${trip.title}">
+            </td>
+          </tr>
+          <tr colspan="2">
+            <td>
+              <a th:href="@{|/trip/modify/${trip.id}|}">수정</a>
+              <button type="button" th:onclick="'confirmDelete(' + ${trip.id} + ')'" >삭제</button>
+              <a th:href="@{/trip/list}">목록</a>
+            </td>
+          </tr>
+        </table>
+    </div>
+  </div>
+  <script layout:fragment="script" type="text/javascript">
+    function confirmDelete(id) {
+      if (confirm('정말 삭제하시겠습니까?')) {
+        $.ajax({
+            type: 'POST',
+            url: '/trip/delete/' + id,
+            success: function(response) {
+                alert(response);  // "삭제되었습니다." message
+                window.location.href = "/trip/list";
+            },
+            error: function() {
+                alert('이 여행상품은 예약이 되어 있어 삭제할 수 없습니다.');
+            }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

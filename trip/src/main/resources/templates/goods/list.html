@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>여행용 굿즈 목록</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="center-box">
+      <h2>여행용 굿즈 목록</h2>
+      <a class="goodsAdd" th:href="@{/goods/add}">굿즈 추가</a>
+      <div class="card" th:each="goods : ${goodsList}">
+        <img th:src="${goods.goodsImageUrl}" th:alt="${goods.goodsName}">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${'상품코드 : ' + goods.goodsCode}"></h5>
+          <p class="card-text" th:text="${'상품명 : ' + goods.goodsName}"></p>
+          <p class="card-text" th:text="${'기본 수량 : ' + goods.baseQuantity}"></p>
+          <p class="card-text" th:text="${'최소 수량 : ' + goods.minQuantity}"></p>
+          <p class="card-text" th:text="${'가격 : ' + goods.goodsPrice + '개/원'}"></p>
+          <p class="card-text" th:text="${'규격 : ' + goods.goodsSize}"></p>
+          <p class="card-text" th:text="${'재질 : ' + goods.material}"></p>
+          <p class="card-text" th:text="${'제작 기간 : ' + goods.productionTime}"></p>
+          <p class="card-text" th:text="${'원산지 : ' + goods.goodsOrigin}"></p>
+          <button class="add-to-cart-btn" th:data-goods-id="${goods.id}">장바구니에 추가</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script layout:fragment="script" type="text/javascript">
+    $(function(){
+      $(".add-to-cart-btn").click(function(){
+        //장바구니 추가 버튼의 data-goods-id 속성 값을 가져와서 goodsId 변수에 저장
+        let goodsId = $(this).data("goods-id");
+
+        //만약 goodsId 값이 false이면 에러 메세지 표시
+        if (!goodsId) {
+          alert("상품 아이디가 유효하지 않습니다.");
+          return;
+        }
+        //추가 메세지 표시
+        if (confirm("장바구니에 추가하시겠습니까?")) {
+          $.post(`/cart/add/${goodsId}`, function(){
+            if (confirm("장바구니에 추가되었습니다. 장바구니로 이동하기셌습니까?")) {
+              window.location.href="/cart/list";
+            }
+          }).fail(function(){
+            alert("장바구니 추가에 실패했습니다. 다시 시도해 주세요.");
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

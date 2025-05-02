@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>여행지기</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="center-box">
+        <h2>회원가입</h2>
+        <form th:action="@{/member/register}" th:object="${memberForm}" method="post" id="memberForm" onsubmit="return validateFn()">
+            <table class="table">
+                <tr>
+                    <td>사용자 아이디 : </td>
+                    <td>
+                        <div class="d-flex">
+                            <input type="text" th:field="*{username}" name="username" id="username">
+                            <button type="button" class="btn btn-outline-secondary text-nowrap" onclick="checkUsername()">아이디 중복 검사</button>
+                        </div>
+                        <div class="text-danger error-msg" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                        <div class="text-danger h6" id="usernameError"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>비밀번호 : </td>
+                    <td>
+                        <input type="password" th:field="*{password1}" name="password1">
+                        <div class="text-danger error-msg" th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>비밀번호 확인 : </td>
+                    <td>
+                        <input type="password" th:field="*{password2}" name="password2">
+                        <div class="text-danger error-msg" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>이메일 : </td>
+                    <td>
+                        <input type="email" th:field="*{email}" name="email">
+                        <div class="text-danger error-msg" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <button type="submit">가입</button>
+                        <button type="button" onclick="clearfn()">다시 쓰기</button>
+                        <button type="button" onclick="location.href='/member/login'">로그인</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+  </div>
+  <script layout:fragment="script" type="text/javascript">
+      //아이디 중복 검사 여부를 확인하는 변수
+      let usernameChecked = false;
+
+      function checkUsername(){
+          const username = $("input[name='username']").val().trim();
+          if(username === ""){
+              $("#usernameError").text("사용자 아이디를 입력해 주세요.");
+              return;
+          }
+          //새창 열기
+          const newWindow = window.open(`/member/username_check?username=${username}`, "usernameCheck", "width=300, height=200, left=200, top=200");
+          //팝업 차단되었을 경우 메시지 표시
+          if(!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined'){
+              alert("팝업이 차단되었습니다. 브라우저 설정에서 팝업을 허용해 주세요.");
+          }else{
+              usernameChecked = true;
+          }
+      }
+
+      function validateFn(){
+          //아이디 중복 검사를 하지 않으면 경고 메시지 표시
+          if(!usernameChecked){
+              alert("아이디 중복 검사를 해주세요.");
+              return false;
+          }
+          //아이디 중복 검사를 했으면 폼제출 허용
+          return true;
+      }
+
+      //폼에 입력된 값 모두 지우기
+      function clearFn() {
+          const input = document.querySelectorAll("#memberForm input");
+          input.forEach(function(inputValue){
+              inputValue.value = "";
+          });
+          const div = document.querySelectorAll(".error-msg");
+          div.forEach(function(error){
+              error.textContent = "";
+          });
+          //아이디 중복 검사 여부 초기화
+          usernameChecked = false;
+      }
+  </script>
+
+</body>
+</html>

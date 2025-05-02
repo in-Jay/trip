@@ -1,0 +1,116 @@
+#calendar .dateTimeWrapper {
+    margin-left: -13px;
+    padding: 15px;
+}
+
+#calendar .currentMonth {
+    display: inline;
+    color: #37BC9B !important;
+    text-shadow: 0 0 0 #37BC9B;
+    font-size: 14px;
+}
+
+#calendar .currentYear {
+    display: inline;
+    padding-left: 5px;
+    color: #37BC9B !important;
+    font-size: 14px;
+}
+
+#calendar .currentDay {
+    color: #37BC9B !important;
+    text-shadow: 0 0 0 #37BC9B;
+    font-size: 22px;
+}
+
+#calendar .currentTime {
+    font-size: 52px;
+    padding-bottom: 3px;
+    padding-left: 10px;
+    line-height: 0;
+}
+
+#calendar .meaning {
+    margin-left: 5px;
+}
+
+#calendar .dateHolder {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    width: 100%;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    overflow-x: auto;
+}
+
+#calendar .dateHolder li {
+    display: inline;
+    text-align: center;
+    cursor: pointer;
+}
+
+#calendar .dateHolder div {
+    padding: 8px;
+}
+
+#calendar .dateHolder .date {
+    font-size: 18px;
+}
+
+#calendar .dateHolder .day {
+    padding-top: 8px;
+}
+
+#calendar .dateCurrent {
+    color: #37BC9B !important;
+    text-shadow: 0 0 0 #37BC9B;
+}
+
+#calendar .day.saturday {
+    color: red;
+}
+
+#calendar .day.sunday {
+    color: red;
+}
+
+#calendar .date.saturday {
+    color: red;
+}
+
+#calendar .date.sunday {
+    color: red;
+}
+
+#calendar .center {
+    height: 100%;
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    font-size: 2.5em;
+    color: white;
+}
+
+#calendar .flex {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#calendar button {
+    border:1px solid #37BC9B;
+    color: #37BC9B;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#calendar button:hover {
+    background-color: #eee;
+}
+.trip-product img {
+    width:120px;
+}
