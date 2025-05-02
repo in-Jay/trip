@@ -21,32 +21,32 @@
 ## 홈페이지 이미지
 **메인 페이지**
 <br><br>
-![Image](https://github.com/user-attachments/assets/ad7a4cd1-dc03-4622-861d-71511994c6ac)
+![Image](https://github.com/user-attachments/assets/4c4ed26b-f04d-4961-96f0-d0a3df8d719c)
 <br><br><br>
 **로그인 페이지**
 <br><br>
-![Image](https://github.com/user-attachments/assets/9b56253d-5faf-4d84-8cb1-2fa5e0573ce5)
+![Image](https://github.com/user-attachments/assets/fa653ebb-d21d-488d-ad37-d324362db2f7)
 <br><br><br>
 **회원가입 페이지**
 <br><br>
-![Image](https://github.com/user-attachments/assets/e2178595-36be-4168-adf3-f46e049da0aa)
+![Image](https://github.com/user-attachments/assets/a482d7ec-e631-4940-9dd4-0568ffd41dfa)
 <br><br><br>
-**도서 등록 페이지**
+**여행정보 페이지**
 <br><br>
-![Image](https://github.com/user-attachments/assets/f66e11da-4429-44d0-85ce-eafbd5b69675)
+![Image](https://github.com/user-attachments/assets/5385808a-d52e-47f2-8f4a-684dc4c7043b)
 <br><br><br>
-**도서 목록 페이지**
+**여행 상품 확인 페이지**
 <br><br>
-![Image](https://github.com/user-attachments/assets/6276a67a-8660-4d80-be1c-b8f69c2522f1)
+![Image](https://github.com/user-attachments/assets/3c85e2f2-d067-417f-b3c0-816ab4b9b6cf)
 <br><br><br>
-**도서 상세 페이지**
+**예약 확인 페이지**
 <br><br>
-![Image](https://github.com/user-attachments/assets/246bef37-5356-4d9e-a304-6390c2079980)
+![Image](https://github.com/user-attachments/assets/c0fd8127-1870-4bbd-b003-a279691f5a53)
 <br><br><br>
-**게시판 페이지**
+**굿즈샵 페이지**
 <br><br>
-![Image](https://github.com/user-attachments/assets/409d9bef-217f-4e37-9264-4cd1625dc344)
+![Image](https://github.com/user-attachments/assets/725a0858-8c47-4e5d-b379-27e85aec2fc3)
 <br><br><br>
 **장바구니**
 <br><br>
-![Image](https://github.com/user-attachments/assets/5cad77db-2a3f-4c8c-b2b6-0182a30062cb)
+![Image](https://github.com/user-attachments/assets/63b7c4cd-dbf0-4273-b4b0-aa450f0e1cd7)
